@@ -477,12 +477,36 @@
   const productsGrid = document.getElementById('productsGrid');
   const filterBtns = document.querySelectorAll('.shop-filter-btn');
 
-  function renderProducts(filter = 'all') {
+  let currentSearchQuery = '';
+
+  function renderProducts(filter = 'all', searchQuery = '') {
     if (!productsGrid) return;
 
     let filtered = products;
     if (filter !== 'all') {
       filtered = products.filter(p => p.category === filter);
+    }
+    if (searchQuery && searchQuery.trim() !== '') {
+      const q = searchQuery.toLowerCase().trim();
+      filtered = filtered.filter(p => 
+        p.name.toLowerCase().includes(q) || 
+        p.description.toLowerCase().includes(q) ||
+        p.category.toLowerCase().includes(q)
+      );
+    }
+
+    if (filtered.length === 0) {
+      productsGrid.innerHTML = `
+        <div style="grid-column:1/-1;text-align:center;padding:48px 16px;color:var(--cream-dim);">
+          <div style="font-size:3rem;margin-bottom:12px;">🔍</div>
+          <h3 style="font-family:var(--font-serif);font-size:1.8rem;color:#fff;margin-bottom:8px;">No Dry Fruits Found for "${searchQuery}"</h3>
+          <p style="font-size:0.9rem;">Try speaking or typing "Badam", "Kaju", "Pista", "Walnut", or "Dates".</p>
+          <button type="button" class="button-039" style="margin-top:16px;padding:10px 20px;" onclick="window.DFF.clearSearch()">
+            <span>Show All 16 Products</span>
+          </button>
+        </div>
+      `;
+      return;
     }
 
     productsGrid.innerHTML = filtered.map(p => {
@@ -528,9 +552,99 @@
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      renderProducts(btn.getAttribute('data-filter') || 'all');
+      renderProducts(btn.getAttribute('data-filter') || 'all', currentSearchQuery);
     });
   });
+
+  /* Live Catalog Search & Google Web Speech Recognition */
+  const catalogSearchInput = document.getElementById('catalogSearchInput');
+  const voiceSearchBtn = document.getElementById('voiceSearchBtn');
+  const voiceStatus = document.getElementById('voiceStatus');
+
+  if (catalogSearchInput) {
+    catalogSearchInput.addEventListener('input', (e) => {
+      currentSearchQuery = e.target.value;
+      const activeFilter = document.querySelector('.shop-filter-btn.active')?.getAttribute('data-filter') || 'all';
+      renderProducts(activeFilter, currentSearchQuery);
+    });
+  }
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (voiceSearchBtn && SpeechRecognition) {
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'hi-IN'; // Indian English & Hindi support
+
+    voiceSearchBtn.addEventListener('click', () => {
+      try {
+        recognition.start();
+        if (voiceStatus) {
+          voiceStatus.style.display = 'block';
+          voiceStatus.textContent = '🎙️ Listening... Speak (e.g. Badam, Pista, Kaju, Akhrot)';
+        }
+        voiceSearchBtn.style.transform = 'scale(1.25)';
+        voiceSearchBtn.style.color = '#ff5252';
+      } catch (err) {
+        console.warn('Speech error:', err);
+      }
+    });
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript.replace(/[.,]/g, '').trim();
+      if (catalogSearchInput) catalogSearchInput.value = transcript;
+      currentSearchQuery = transcript;
+      if (voiceStatus) {
+        voiceStatus.textContent = `🎙️ Searched: "${transcript}"`;
+        setTimeout(() => { if (voiceStatus) voiceStatus.style.display = 'none'; }, 3500);
+      }
+      voiceSearchBtn.style.transform = 'scale(1)';
+      voiceSearchBtn.style.color = 'var(--ac)';
+      const activeFilter = document.querySelector('.shop-filter-btn.active')?.getAttribute('data-filter') || 'all';
+      renderProducts(activeFilter, currentSearchQuery);
+      showToast(`Google Voice: Found results for "${transcript}"`);
+    };
+
+    recognition.onerror = () => {
+      if (voiceStatus) {
+        voiceStatus.textContent = 'Speech not detected. Tap mic and speak clearly.';
+        setTimeout(() => { if (voiceStatus) voiceStatus.style.display = 'none'; }, 3000);
+      }
+      voiceSearchBtn.style.transform = 'scale(1)';
+      voiceSearchBtn.style.color = 'var(--ac)';
+    };
+
+    recognition.onend = () => {
+      voiceSearchBtn.style.transform = 'scale(1)';
+      voiceSearchBtn.style.color = 'var(--ac)';
+    };
+  } else if (voiceSearchBtn) {
+    voiceSearchBtn.addEventListener('click', () => {
+      showToast('Google Voice Search is active in Chrome, Edge, and Android phones!');
+    });
+  }
+
+  /* Language Switcher (EN / हिंदी) */
+  let currentLang = 'en';
+  const langToggleBtn = document.getElementById('langToggleBtn');
+  const currentLangLabel = document.getElementById('currentLangLabel');
+
+  if (langToggleBtn) {
+    langToggleBtn.addEventListener('click', () => {
+      currentLang = currentLang === 'en' ? 'hi' : 'en';
+      if (currentLangLabel) currentLangLabel.textContent = currentLang === 'en' ? 'हिं / EN' : 'EN / हिं';
+      
+      // Update key text
+      const heroTitle = document.querySelector('.hero__trio-title');
+      if (heroTitle) {
+        if (currentLang === 'hi') {
+          showToast('भाषा: हिंदी चुनी गई (Pure Natural Dry Fruits)');
+        } else {
+          showToast('Language: English selected');
+        }
+      }
+    });
+  }
 
   /* --------------------------------------------------------------------------
      8. REVIEWS MARQUEE DUPLICATION FOR INFINITE LOOP
@@ -918,7 +1032,14 @@
     sendOrderToWhatsApp,
     viewReceiptFromOrder,
     downloadReceiptPDF,
-    downloadReceiptSlip
+    downloadReceiptSlip,
+    clearSearch: function () {
+      currentSearchQuery = '';
+      const inp = document.getElementById('catalogSearchInput');
+      if (inp) inp.value = '';
+      const activeFilter = document.querySelector('.shop-filter-btn.active')?.getAttribute('data-filter') || 'all';
+      renderProducts(activeFilter, '');
+    }
   };
 
   // Initial load

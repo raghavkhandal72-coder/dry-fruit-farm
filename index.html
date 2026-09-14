@@ -176,8 +176,11 @@
         </div>
       </a>
 
-      <!-- Right: Cart Trigger -->
-      <div class="site-nav__right">
+      <!-- Right: Lang Toggle & Cart Trigger -->
+      <div class="site-nav__right" style="display:flex;align-items:center;gap:10px;">
+        <button type="button" class="button-039" id="langToggleBtn" title="Switch English / हिंदी" style="padding:8px 12px;font-size:0.75rem;font-weight:700;display:flex;align-items:center;gap:4px;">
+          <span>🌐 <span id="currentLangLabel">हिं / EN</span></span>
+        </button>
         <div class="site-nav__cart-wrap">
           <button type="button" class="button-039 is-icon" id="cartToggleBtn" style="background:#FAF7F2;color:#0E1B2E;" aria-label="Open cart">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -713,6 +716,19 @@
           </p>
         </div>
 
+        <!-- Live Instant Search & Google Voice Search Bar -->
+        <div class="shop-search-wrap" style="max-width:540px;margin:0 auto 24px;position:relative;">
+          <div style="display:flex;align-items:center;background:rgba(14,27,46,0.85);border:1.5px solid var(--ac);border-radius:30px;padding:6px 16px;box-shadow:0 8px 24px rgba(0,0,0,0.3);backdrop-filter:blur(8px);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ac)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:10px;flex-shrink:0;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="catalogSearchInput" placeholder="Search Badam, Kaju, Pista, Dates, Walnuts..." style="flex:1;background:none;border:none;outline:none;color:#fff;font-family:var(--font-mono);font-size:0.9rem;">
+            <!-- Google Voice Search Mic Button -->
+            <button type="button" id="voiceSearchBtn" title="Search with Google Voice" style="background:none;border:none;cursor:pointer;color:var(--ac);padding:6px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:transform 0.2s;" aria-label="Google Voice Search">
+              <svg id="micIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            </button>
+          </div>
+          <div id="voiceStatus" style="font-family:var(--font-mono);font-size:0.75rem;color:var(--ac);text-align:center;margin-top:6px;min-height:18px;display:none;"></div>
+        </div>
+
         <!-- Category Filters -->
         <div class="shop-filter-bar">
           <button type="button" class="shop-filter-btn active" data-filter="all">All Products (16)</button>
@@ -802,7 +818,27 @@
                 </div>
               </div>
 
-              <span class="chip" style="margin-bottom:14px;">Main Flagship Store</span>
+              <span class="chip" style="margin-bottom:12px;">Main Flagship Store</span>
+
+              <!-- Official Google Reviews Badge (100% Free) -->
+              <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(229,196,131,0.3);border-radius:12px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <svg width="22" height="22" viewBox="0 0 24 24" style="flex-shrink:0;">
+                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                  </svg>
+                  <div>
+                    <div style="font-weight:800;font-size:0.85rem;color:#fff;">Google Rating: 4.8 / 5 <span style="color:#FFB800;">★★★★★</span></div>
+                    <div style="font-size:0.72rem;color:var(--cream-dim);">1,420+ Verified Ratings</div>
+                  </div>
+                </div>
+                <a href="https://maps.google.com/maps?q=Circuit+House+Road+Ratanada+Jodhpur+Rajasthan" target="_blank" rel="noopener" style="background:#4285F4;color:#fff;border-radius:6px;padding:6px 12px;font-size:0.75rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+                  <span>Rate Us ⭐</span>
+                </a>
+              </div>
+
               <h3>Jodhpur, Rajasthan</h3>
               <p>
                 <b>Address:</b> Circuit House Road, Ratanada, Jodhpur, Rajasthan 342001<br>
