@@ -37,11 +37,60 @@
   
   <link rel="stylesheet" href="style.css">
   
-  <!-- Google Rich Snippets & Schema.org Structured Data (100% Free SEO Boost) -->
+  <!-- Google PWA & Mobile App Install Directives (100% Free) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Dry Fruit Farm">
+  <link rel="apple-touch-icon" href="assets/dff_logo.png">
+
+  <!-- Google Rich Snippets, Breadcrumbs & Sitelinks Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/#website",
+        "url": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/",
+        "name": "Dry Fruit Farm",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/#breadcrumbs",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Shop Pure Nuts & Dry Fruits",
+            "item": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/#shop"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Superfoods",
+            "item": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/#superfoods"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Retail Flagship Stores",
+            "item": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/#stores"
+          }
+        ]
+      },
       {
         "@type": "Store",
         "@id": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/#store",
@@ -81,10 +130,12 @@
         "name": "California Almonds (Badam Giri)",
         "image": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/assets/cat_almonds.jpg",
         "description": "Jumbo size, crispy California almonds direct from harvest orchards. 100% natural, rich in Vitamin E.",
+        "brand": { "@type": "Brand", "name": "Dry Fruit Farm" },
         "offers": {
           "@type": "Offer",
           "priceCurrency": "INR",
           "price": "249",
+          "priceValidUntil": "2027-12-31",
           "availability": "https://schema.org/InStock",
           "url": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/#shop"
         },
@@ -99,10 +150,12 @@
         "name": "Iranian Salted Pistachios (Pista)",
         "image": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/assets/pistachio_iranian.webp",
         "description": "Authentic roasted and lightly salted Iranian pistachios with natural open shells.",
+        "brand": { "@type": "Brand", "name": "Dry Fruit Farm" },
         "offers": {
           "@type": "Offer",
           "priceCurrency": "INR",
           "price": "429",
+          "priceValidUntil": "2027-12-31",
           "availability": "https://schema.org/InStock",
           "url": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/#shop"
         },
@@ -117,10 +170,12 @@
         "name": "Chilean Walnut Kernels (Akhrot Giri)",
         "image": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/assets/walnut_giri.webp",
         "description": "Extra light halves, rich in Omega-3 brain nutrients with zero bitterness.",
+        "brand": { "@type": "Brand", "name": "Dry Fruit Farm" },
         "offers": {
           "@type": "Offer",
           "priceCurrency": "INR",
           "price": "499",
+          "priceValidUntil": "2027-12-31",
           "availability": "https://schema.org/InStock",
           "url": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/#shop"
         },
@@ -128,6 +183,66 @@
           "@type": "AggregateRating",
           "ratingValue": "4.9",
           "reviewCount": "190"
+        }
+      },
+      {
+        "@type": "Product",
+        "name": "Gourmet Whole Cashews (Kaju W240)",
+        "image": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/assets/cat_cashews.jpg",
+        "description": "Crispy, sweet, whole King cashews hand-graded for snacking and curries.",
+        "brand": { "@type": "Brand", "name": "Dry Fruit Farm" },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "INR",
+          "price": "299",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/#shop"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "210"
+        }
+      },
+      {
+        "@type": "Product",
+        "name": "Afghani Premium Anjeer (Dried Figs)",
+        "image": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/assets/cat_anjeer.jpg",
+        "description": "Naturally dried round figs rich in dietary fiber, iron, and calcium.",
+        "brand": { "@type": "Brand", "name": "Dry Fruit Farm" },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "INR",
+          "price": "399",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/#shop"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "reviewCount": "145"
+        }
+      },
+      {
+        "@type": "Product",
+        "name": "Luxury Wooden Gift Hamper Box",
+        "image": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/assets/corp_gift_hero.jpg",
+        "description": "Handcrafted laser-engraved wooden box with 4 airtight jars of almonds, cashews, pistachios, and raisins.",
+        "brand": { "@type": "Brand", "name": "Dry Fruit Farm" },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "INR",
+          "price": "1499",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://raghavkhandal72-coder.github.io/dry-fruit-farm/#gifting"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "reviewCount": "98"
         }
       }
     ]

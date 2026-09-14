@@ -1,0 +1,25 @@
+{
+  "name": "Dry Fruit Farm (DFF) | Premium Dry Fruits & Nuts",
+  "short_name": "Dry Fruit Farm",
+  "description": "Buy 100% Natural Almonds, Cashews, Pistachios, Dates & Luxury Gift Hampers Online.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0E1B2E",
+  "theme_color": "#0E1B2E",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/dff_logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/dff_logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "food", "lifestyle"]
+}
