@@ -479,6 +479,28 @@
 
   let currentSearchQuery = '';
 
+  const searchSynonyms = {
+    'badam': ['almond', 'badam', 'बादाम'],
+    'बादाम': ['almond', 'badam', 'बादाम'],
+    'kaju': ['cashew', 'kaju', 'काजू'],
+    'काजू': ['cashew', 'kaju', 'काजू'],
+    'pista': ['pistachio', 'pista', 'पिस्ता'],
+    'पिस्ता': ['pistachio', 'pista', 'पिस्ता'],
+    'akhrot': ['walnut', 'akhrot', 'अखरोट'],
+    'अखरोट': ['walnut', 'akhrot', 'अखरोट'],
+    'khajoor': ['date', 'khajoor', 'खजूर', 'medjool', 'kalmi'],
+    'खजूर': ['date', 'khajoor', 'खजूर', 'medjool', 'kalmi'],
+    'kishmish': ['raisin', 'kishmish', 'किशमिश', 'munakka'],
+    'किशमिश': ['raisin', 'kishmish', 'किशमिश', 'munakka'],
+    'anjeer': ['anjeer', 'fig', 'अंजीर'],
+    'अंजीर': ['anjeer', 'fig', 'अंजीर'],
+    'seed': ['seed', 'pumpkin', 'melon', 'sunflower', 'chia', 'बीज'],
+    'बीज': ['seed', 'pumpkin', 'melon', 'sunflower', 'chia', 'बीज'],
+    'gift': ['hamper', 'box', 'gift', 'गिफ्ट', 'बॉक्स'],
+    'hamper': ['hamper', 'box', 'gift', 'गिफ्ट', 'बॉक्स'],
+    'गिफ्ट': ['hamper', 'box', 'gift', 'गिफ्ट', 'बॉक्स']
+  };
+
   function renderProducts(filter = 'all', searchQuery = '') {
     if (!productsGrid) return;
 
@@ -488,19 +510,28 @@
     }
     if (searchQuery && searchQuery.trim() !== '') {
       const q = searchQuery.toLowerCase().trim();
-      filtered = filtered.filter(p => 
-        p.name.toLowerCase().includes(q) || 
-        p.description.toLowerCase().includes(q) ||
-        p.category.toLowerCase().includes(q)
-      );
+      
+      let searchTerms = [q];
+      for (const [key, terms] of Object.entries(searchSynonyms)) {
+        if (q.includes(key)) {
+          searchTerms = searchTerms.concat(terms);
+        }
+      }
+
+      filtered = filtered.filter(p => {
+        const pName = p.name.toLowerCase();
+        const pDesc = p.description.toLowerCase();
+        const pCat = p.category.toLowerCase();
+        return searchTerms.some(term => pName.includes(term) || pDesc.includes(term) || pCat.includes(term));
+      });
     }
 
     if (filtered.length === 0) {
       productsGrid.innerHTML = `
         <div style="grid-column:1/-1;text-align:center;padding:48px 16px;color:var(--cream-dim);">
           <div style="font-size:3rem;margin-bottom:12px;">🔍</div>
-          <h3 style="font-family:var(--font-serif);font-size:1.8rem;color:#fff;margin-bottom:8px;">No Dry Fruits Found for "${searchQuery}"</h3>
-          <p style="font-size:0.9rem;">Try speaking or typing "Badam", "Kaju", "Pista", "Walnut", or "Dates".</p>
+          <h3 style="font-family:var(--font-serif);font-size:1.8rem;color:#fff;margin-bottom:8px;">No Products Found for "${searchQuery}"</h3>
+          <p style="font-size:0.9rem;">Showing 0 products. Tap below to see all items.</p>
           <button type="button" class="button-039" style="margin-top:16px;padding:10px 20px;" onclick="window.DFF.clearSearch()">
             <span>Show All 16 Products</span>
           </button>
@@ -581,7 +612,10 @@
         recognition.start();
         if (voiceStatus) {
           voiceStatus.style.display = 'block';
-          voiceStatus.textContent = '🎙️ Listening... Speak (e.g. Badam, Pista, Kaju, Akhrot)';
+          voiceStatus.textContent = '🎙️ Listening...';
+        }
+        if (catalogSearchInput) {
+          catalogSearchInput.placeholder = '🎙️ Listening...';
         }
         voiceSearchBtn.style.transform = 'scale(1.25)';
         voiceSearchBtn.style.color = '#ff5252';
@@ -592,29 +626,37 @@
 
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript.replace(/[.,]/g, '').trim();
-      if (catalogSearchInput) catalogSearchInput.value = transcript;
+      if (catalogSearchInput) {
+        catalogSearchInput.value = transcript;
+        catalogSearchInput.placeholder = 'Search products...';
+      }
       currentSearchQuery = transcript;
       if (voiceStatus) {
-        voiceStatus.textContent = `🎙️ Searched: "${transcript}"`;
-        setTimeout(() => { if (voiceStatus) voiceStatus.style.display = 'none'; }, 3500);
+        voiceStatus.style.display = 'none';
       }
       voiceSearchBtn.style.transform = 'scale(1)';
       voiceSearchBtn.style.color = 'var(--ac)';
       const activeFilter = document.querySelector('.shop-filter-btn.active')?.getAttribute('data-filter') || 'all';
       renderProducts(activeFilter, currentSearchQuery);
-      showToast(`Google Voice: Found results for "${transcript}"`);
+      showToast(`Searching for "${transcript}"`);
     };
 
     recognition.onerror = () => {
       if (voiceStatus) {
-        voiceStatus.textContent = 'Speech not detected. Tap mic and speak clearly.';
-        setTimeout(() => { if (voiceStatus) voiceStatus.style.display = 'none'; }, 3000);
+        voiceStatus.textContent = 'Speech not detected. Tap mic again.';
+        setTimeout(() => { if (voiceStatus) voiceStatus.style.display = 'none'; }, 2500);
+      }
+      if (catalogSearchInput) {
+        catalogSearchInput.placeholder = 'Search products...';
       }
       voiceSearchBtn.style.transform = 'scale(1)';
       voiceSearchBtn.style.color = 'var(--ac)';
     };
 
     recognition.onend = () => {
+      if (catalogSearchInput && !catalogSearchInput.value) {
+        catalogSearchInput.placeholder = 'Search products...';
+      }
       voiceSearchBtn.style.transform = 'scale(1)';
       voiceSearchBtn.style.color = 'var(--ac)';
     };
