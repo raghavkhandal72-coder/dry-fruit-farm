@@ -271,6 +271,12 @@
       else navCount.classList.add('is-empty');
     }
 
+    const mobCartBadge = document.getElementById('mobCartBadge');
+    if (mobCartBadge) {
+      mobCartBadge.textContent = totalCount;
+      mobCartBadge.style.display = totalCount > 0 ? 'flex' : 'none';
+    }
+
     const drawerCounts = document.querySelectorAll('.drawer-cart-count');
     drawerCounts.forEach(el => el.textContent = totalCount);
 
@@ -356,6 +362,8 @@
   if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCart);
   if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
   if (menuDrawerCartBtn) menuDrawerCartBtn.addEventListener('click', openCart);
+  const mobNavCart = document.getElementById('mobNavCart');
+  if (mobNavCart) mobNavCart.addEventListener('click', openCart);
 
   /* --------------------------------------------------------------------------
      5. HERO 3-TRIO SHOWCASE SWITCHER
@@ -601,8 +609,10 @@
     }
     if (upiAppDeepLink) {
       upiAppDeepLink.href = upiUri;
-      if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+      if (window.innerWidth <= 768 || /Android|iPhone|iPad/i.test(navigator.userAgent)) {
         upiAppDeepLink.style.display = 'block';
+      } else {
+        upiAppDeepLink.style.display = 'none';
       }
     }
 

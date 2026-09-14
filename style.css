@@ -1654,7 +1654,97 @@ body[data-cart-status="open"] .cart-drawer {
     row-gap: 36px;
   }
   .hero {
-    padding: 100px 20px 80px;
+    padding: 90px 16px 60px;
+  }
+  body {
+    padding-bottom: 74px; /* Space for mobile bottom bar */
+  }
+}
+
+/* ==========================================================================
+   MOBILE BOTTOM APP NAVIGATION BAR
+   ========================================================================== */
+.mobile-bottom-nav {
+  display: none;
+}
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: rgba(14, 27, 46, 0.95);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid rgba(229, 196, 131, 0.3);
+    z-index: 999;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 8px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.35);
+  }
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--cream-dim);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    gap: 3px;
+    position: relative;
+    padding: 6px 12px;
+    border-radius: 12px;
+    transition: color 0.2s, transform 0.2s;
+  }
+  .mobile-nav-item:active {
+    transform: scale(0.92);
+    color: var(--ac);
+  }
+  .mobile-nav-item svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+  }
+  .mobile-nav-item.active {
+    color: var(--ac);
+  }
+  .mobile-cart-badge {
+    position: absolute;
+    top: 2px;
+    right: 12px;
+    background: var(--ac);
+    color: var(--dark-bg);
+    font-size: 0.65rem;
+    font-weight: 900;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .checkout-input {
+    font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
+  }
+  .checkout-box {
+    width: 95vw;
+    max-height: 88vh;
+    padding: 20px 16px;
+  }
+  .receipt-paper {
+    width: 100%;
+    max-width: 320px;
+    padding: 16px;
+  }
+  .prod-card__weights button {
+    min-height: 34px;
+    font-size: 0.75rem;
   }
 }
 
